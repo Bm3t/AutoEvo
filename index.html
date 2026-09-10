@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0a0b">
+<meta name="description" content="Scegli il tuo Tuning Hacker Pack in base alla tua auto.">
+<title>AutoEvoluzione — Scegli il tuo Hacker Pack</title>
+<style>
+:root{
+  --bg:#08090b;
+  --panel:#111318;
+  --panel-2:#171a20;
+  --line:#282d35;
+  --text:#f6f7f8;
+  --muted:#9ca3af;
+  --yellow:#ffd21c;
+  --yellow-2:#ffb900;
+  --red:#ff2633;
+  --green:#23c77a;
+  --shadow:0 22px 60px rgba(0,0,0,.35);
+  --radius:24px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:
+    radial-gradient(circle at 20% -5%,rgba(255,210,28,.10),transparent 28%),
+    radial-gradient(circle at 95% 12%,rgba(255,38,51,.11),transparent 22%),
+    var(--bg);
+  color:var(--text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit}
+.container{width:min(1180px,calc(100% - 32px));margin:auto}
+.topbar{
+  position:sticky;top:0;z-index:40;
+  backdrop-filter:blur(16px);
+  background:rgba(8,9,11,.82);
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.topbar-inner{height:68px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.brand-mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(145deg,#fff 0%,#fff 43%,var(--yellow) 44%,var(--yellow) 69%,var(--red) 70%);box-shadow:0 6px 25px rgba(255,210,28,.18)}
+.brand span{font-size:14px}
+.nav{display:flex;gap:18px;color:#c9cdd4;font-size:13px}
+.nav a:hover{color:#fff}
+.hero{padding:72px 0 36px}
+.hero-grid{display:grid;grid-template-columns:1.18fr .82fr;gap:26px;align-items:stretch}
+.hero-copy,.hero-visual,.release,.pack,.brand-card,.how-card{
+  border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));box-shadow:var(--shadow)
+}
+.hero-copy{border-radius:30px;padding:38px;overflow:hidden;position:relative}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:900;letter-spacing:.15em;text-transform:uppercase;color:#0b0c0f;background:var(--yellow);padding:8px 12px;border-radius:999px}
+.hero h1{font-size:clamp(44px,7vw,78px);line-height:.92;letter-spacing:-.045em;margin:20px 0 16px}
+.hero h1 .accent{color:var(--yellow)}
+.hero p{font-size:17px;line-height:1.65;color:#b9bec7;max-width:650px;margin:0}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 18px;border-radius:14px;border:1px solid transparent;font-weight:900;font-size:14px;transition:.2s transform,.2s box-shadow,.2s background}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--yellow);color:#0c0c0d;box-shadow:0 10px 35px rgba(255,210,28,.16)}
+.btn-dark{background:#15181e;border-color:#2a2e35;color:#f4f5f6}
+.hero-note{display:flex;gap:18px;margin-top:28px;color:#858c98;font-size:12px;flex-wrap:wrap}
+.note-item{display:flex;gap:7px;align-items:center}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 14px rgba(35,199,122,.8)}
+.hero-visual{
+  border-radius:30px;min-height:470px;position:relative;overflow:hidden;
+  background:
+    linear-gradient(135deg,rgba(0,0,0,.05),rgba(0,0,0,.75)),
+    url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=85') center/cover;
+}
+.hero-visual:before{
+  content:"";position:absolute;inset:auto -10% -25% 15%;height:60%;
+  background:radial-gradient(circle,#ffd21c55,transparent 60%);filter:blur(22px)
+}
+.visual-badge{position:absolute;left:20px;top:20px;background:rgba(8,9,11,.72);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(12px);padding:12px 14px;border-radius:16px;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.09em}
+.visual-card{position:absolute;left:20px;right:20px;bottom:20px;background:rgba(8,9,11,.84);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.10);padding:18px;border-radius:20px}
+.visual-card strong{font-size:19px}.visual-card small{display:block;color:#a8adb6;margin-top:5px}
+
+.release{margin:24px 0 56px;border-radius:22px;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:18px;background:linear-gradient(90deg,#171a1f 0%,#1c1d17 52%,#111318 100%)}
+.release-left{display:flex;align-items:center;gap:14px;min-width:0}.release-icon{width:44px;height:44px;display:grid;place-items:center;border-radius:14px;background:var(--red);box-shadow:0 10px 30px rgba(255,38,51,.25);font-size:21px;flex:0 0 auto}
+.release strong{display:block;font-size:15px}.release small{display:block;color:#aab0b9;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.release .btn{flex:0 0 auto}
+
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:18px;margin-bottom:20px}
+.kicker{color:var(--yellow);font-size:11px;font-weight:900;letter-spacing:.15em;text-transform:uppercase}
+.section-title{font-size:clamp(28px,4vw,44px);line-height:1;margin:5px 0 0;letter-spacing:-.03em}
+.section-sub{margin:7px 0 0;color:#8e96a2;font-size:14px;max-width:760px;line-height:1.5}
+
+.pack-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-bottom:70px}
+.pack{border-radius:24px;overflow:hidden;position:relative}
+.pack.featured{border-color:rgba(255,210,28,.42);box-shadow:0 24px 70px rgba(0,0,0,.45),0 0 0 1px rgba(255,210,28,.06)}
+.pack-media{height:230px;position:relative;overflow:hidden;background:#20242b}
+.pack-media img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.02) contrast(1.02)}
+.pack-media:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(8,9,11,.92))}
+.badge{position:absolute;left:16px;top:16px;z-index:2;padding:7px 10px;border-radius:999px;font-size:10px;font-weight:950;letter-spacing:.12em;text-transform:uppercase;background:var(--yellow);color:#101112}
+.badge.red{background:var(--red);color:#fff}
+.pack-media-title{position:absolute;left:18px;right:18px;bottom:18px;z-index:2;font-weight:950;font-size:22px;line-height:1.02;letter-spacing:-.02em}
+.pack-body{padding:21px}
+.pack-meta{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 14px}
+.chip{padding:7px 9px;border:1px solid #2c3038;border-radius:999px;color:#aeb5c0;font-size:11px}
+.pack-desc{color:#aeb4bf;line-height:1.6;font-size:13px;margin:0 0 16px}
+.pack-list{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:0 0 18px;padding:0;list-style:none}
+.pack-list li{display:flex;gap:8px;align-items:start;color:#d4d8dd;font-size:12px}
+.check{color:var(--yellow);font-weight:900}
+.pack-footer{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.price{font-size:25px;font-weight:950;letter-spacing:-.03em}
+.price small{display:block;color:#7e8793;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+
+.selector{margin-bottom:76px}
+.selector-bar{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 12px}
+.search{flex:1 1 290px;position:relative}
+.search input{width:100%;background:#0e1014;border:1px solid #2a2e35;color:#fff;border-radius:14px;padding:13px 15px 13px 40px;outline:none}
+.search input:focus{border-color:#5f646d;box-shadow:0 0 0 3px rgba(255,255,255,.04)}
+.search span{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:#808895}
+.alpha{display:flex;flex-wrap:wrap;gap:6px}
+.alpha button{height:42px;min-width:38px;padding:0 9px;border-radius:12px;border:1px solid #2a2e35;background:#111419;color:#a9b0ba;font-weight:800;cursor:pointer}
+.alpha button:hover,.alpha button.active{background:var(--yellow);border-color:var(--yellow);color:#111}
+.brand-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:14px}
+.brand-card{border-radius:18px;padding:14px;min-height:118px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:9px;position:relative;overflow:hidden;transition:.2s transform,.2s border-color,.2s background}
+.brand-card:hover{transform:translateY(-3px);border-color:#4a505a}
+.brand-card.available{cursor:pointer;background:linear-gradient(180deg,#14171c,#0e1013)}
+.brand-card.locked{opacity:.46;filter:saturate(.1);cursor:default}
+.brand-logo{height:42px;width:100%;object-fit:contain;object-position:center}
+.logo-fallback{height:42px;display:grid;place-items:center;font-weight:950;letter-spacing:-.03em;font-size:18px}
+.brand-name{font-weight:850;font-size:12px}
+.status{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:#737b87}
+.available .status{color:var(--yellow)}
+.brand-card .ribbon{position:absolute;top:8px;right:-28px;transform:rotate(35deg);font-size:8px;font-weight:900;background:var(--yellow);color:#111;padding:4px 30px}
+.empty{display:none;padding:30px;text-align:center;color:#929aa5;border:1px dashed #313641;border-radius:18px}
+
+.how{margin-bottom:70px}
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.how-card{border-radius:20px;padding:22px}
+.how-num{font-size:12px;color:#111;background:var(--yellow);font-weight:950;padding:7px 9px;border-radius:10px;display:inline-block}
+.how-card h3{margin:15px 0 7px;font-size:18px}
+.how-card p{margin:0;color:#9098a4;line-height:1.55;font-size:13px}
+
+.footer{padding:28px 0 46px;border-top:1px solid #1d2026;color:#727a86;font-size:11px}
+.footer-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.footer strong{color:#aeb4be}
+.disclaimer{margin-top:10px;max-width:870px;line-height:1.6}
+
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(8px);display:none;place-items:center;z-index:90;padding:18px}
+.modal.open{display:grid}
+.modal-card{width:min(560px,100%);background:#101217;border:1px solid #2c3139;border-radius:24px;box-shadow:var(--shadow);padding:24px}
+.modal-top{display:flex;justify-content:space-between;align-items:start;gap:18px}
+.modal-close{width:40px;height:40px;border-radius:12px;border:1px solid #2b3038;background:#15181e;color:#fff;cursor:pointer}
+.modal h3{font-size:28px;margin:0}.modal p{color:#aab1bb;line-height:1.6}
+.modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.modal-actions .btn{width:100%}
+
+@media(max-width:980px){
+  .hero-grid{grid-template-columns:1fr}.hero-visual{min-height:360px}
+  .brand-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+@media(max-width:720px){
+  html,body{
+    width:100%;
+    max-width:100%;
+    overflow-x:hidden;
+  }
+
+  .container{
+    width:calc(100% - 20px);
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+  /* HEADER */
+  .topbar-inner{height:58px}
+  .nav{display:none}
+  .brand-mark{width:30px;height:30px}
+  .brand span{font-size:12px}
+
+  /* HERO */
+  .hero{padding:28px 0 20px}
+  .hero-grid{
+    grid-template-columns:1fr;
+    gap:12px;
+  }
+  .hero-copy{
+    padding:22px 18px;
+    border-radius:22px;
+  }
+  .hero h1{
+    font-size:clamp(40px,12vw,54px);
+    line-height:.94;
+    margin:17px 0 14px;
+  }
+  .hero p{
+    font-size:14px;
+    line-height:1.55;
+  }
+  .hero-actions{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:9px;
+    margin-top:20px;
+  }
+  .btn{
+    width:100%;
+    min-height:46px;
+    font-size:12px;
+  }
+  .hero-note{
+    gap:10px;
+    margin-top:20px;
+    font-size:10px;
+  }
+  .hero-visual{
+    min-height:230px;
+    border-radius:22px;
+  }
+
+  /* BANNER */
+  .release{
+    margin:12px 0 36px;
+    padding:14px;
+    border-radius:18px;
+    flex-direction:column;
+    align-items:stretch;
+    gap:12px;
+  }
+  .release-left{
+    align-items:flex-start;
+    min-width:0;
+  }
+  .release strong{
+    font-size:12px;
+    line-height:1.35;
+  }
+  .release small{
+    white-space:normal;
+    font-size:10px;
+    line-height:1.4;
+  }
+
+  /* PACK */
+  .section-head{
+    display:block;
+    margin-bottom:16px;
+  }
+  .section-title{
+    font-size:30px;
+    line-height:1.02;
+  }
+  .section-sub{
+    font-size:12px;
+    line-height:1.5;
+  }
+  .pack-grid{
+    grid-template-columns:1fr;
+    gap:12px;
+    margin-bottom:48px;
+  }
+  .pack-media{height:205px}
+  .pack-media-title{font-size:20px}
+  .pack-body{padding:17px}
+  .pack-list{
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+  }
+  .pack-list li{font-size:11px}
+  .pack-footer{gap:10px}
+  .price{font-size:22px}
+
+  /* ===============================
+     SELECTOR — FIX MOBILE
+     La barra diventa una colonna.
+     Niente larghezze minime che forzano
+     elementi fuori schermo.
+     =============================== */
+  .selector{
+    width:100%;
+    margin-bottom:48px;
+  }
+  .selector-bar{
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    flex-wrap:nowrap;
+    width:100%;
+    gap:9px;
+    margin:16px 0 12px;
+  }
+
+  .search{
+    flex:none;
+    width:100%;
+    min-width:0;
+  }
+  .search input{
+    display:block;
+    width:100%;
+    height:46px;
+    padding:0 14px 0 40px;
+    font-size:14px;
+  }
+  .search span{
+    left:15px;
+  }
+
+  /* Tutte + lettere: una vera griglia responsive */
+  .alpha{
+    display:grid;
+    grid-template-columns:repeat(8,minmax(0,1fr));
+    width:100%;
+    min-width:0;
+    max-width:100%;
+    gap:5px;
+    flex:none;
+  }
+  .alpha button{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    min-width:0;
+    height:36px;
+    padding:0;
+    border-radius:10px;
+    font-size:10px;
+  }
+  .alpha button:first-child{
+    grid-column:span 2;
+  }
+
+  /* ===== TUTTI I MARCHI, VISIBILI ===== */
+  .brand-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+    width:100%;
+    min-width:0;
+    margin-top:10px;
+  }
+  .brand-card{
+    width:100%;
+    min-width:0;
+    min-height:106px;
+    padding:11px 7px;
+    border-radius:15px;
+    gap:7px;
+  }
+  .brand-logo{
+    height:34px;
+    width:100%;
+    max-width:78px;
+    object-fit:contain;
+  }
+  .logo-fallback{
+    height:34px;
+    font-size:15px;
+  }
+  .brand-name{
+    max-width:100%;
+    font-size:11px;
+    line-height:1.15;
+    overflow-wrap:anywhere;
+  }
+  .status{
+    font-size:7.5px;
+    letter-spacing:.09em;
+  }
+  .brand-card .ribbon{
+    font-size:6px;
+    right:-32px;
+    top:7px;
+    padding:3px 27px;
+  }
+
+  /* MODALE */
+  .modal{padding:12px}
+  .modal-card{
+    width:100%;
+    padding:18px;
+    border-radius:20px;
+  }
+  .modal h3{font-size:24px}
+  .modal-actions{grid-template-columns:1fr}
+
+  /* COME FUNZIONA */
+  .how{margin-bottom:45px}
+  .how-grid{
+    grid-template-columns:1fr;
+    gap:9px;
+  }
+  .how-card{
+    padding:17px;
+    border-radius:16px;
+  }
+  .how-card h3{font-size:16px}
+  .how-card p{font-size:11px}
+
+  .footer{padding-bottom:32px}
+}
+
+@media(max-width:380px){
+  .container{width:calc(100% - 14px)}
+  .alpha{
+    grid-template-columns:repeat(7,minmax(0,1fr));
+  }
+  .brand-grid{gap:7px}
+  .brand-card{min-height:100px}
+}
+
+
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="brand" href="#top" aria-label="AutoEvoluzione">
+      <div class="brand-mark"></div><span>AutoEvoluzione</span>
+    </a>
+    <nav class="nav">
+      <a href="#packs">Pack</a>
+      <a href="#auto">Scegli auto</a>
+      <a href="#come-funziona">Come funziona</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow">TUNING HACKER</span>
+      <h1>Scegli il pack.<br><span class="accent">Trasforma</span> la tua auto.</h1>
+      <p>Idee selezionate, prodotti, link diretti e consigli per trovare modifiche interessanti senza perdere ore a cercare in giro.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#auto">SCEGLI LA TUA AUTO →</a>
+        <a class="btn btn-dark" href="#packs">VEDI I PACK DISPONIBILI</a>
+      </div>
+      <div class="hero-note">
+        <div class="note-item"><span class="dot"></span>Nuovi pack in arrivo</div>
+        <div class="note-item">⚡ Aggiornamenti continui</div>
+        <div class="note-item">🔗 Link diretti ai prodotti</div>
+      </div>
+    </div>
+    <div class="hero-visual" aria-label="Auto modificata">
+      <div class="visual-badge">BUILD • STYLE • UTILITY</div>
+      <div class="visual-card">
+        <strong>Il tuo modello, la tua direzione.</strong>
+        <small>Clean • Urban • Sport • Utility • Custom</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container">
+  <div class="release">
+    <div class="release-left">
+      <div class="release-icon">★</div>
+      <div>
+        <strong>È ARRIVATO IL NUOVO HACKER PACK PER FIAT GRANDE PANDA</strong>
+        <small>Idee, accessori, dettagli, utility e link selezionati in un unico pack.</small>
+      </div>
+    </div>
+    <a class="btn btn-primary" data-link="grandePanda" href="#">SCOPRI IL PACK →</a>
+  </div>
+</section>
+
+<section class="container" id="packs">
+  <div class="section-head">
+    <div>
+      <div class="kicker">Disponibili adesso</div>
+      <h2 class="section-title">I pack da cui partire.</h2>
+      <p class="section-sub">Per ora trovi il pack generico per tutte le auto e l'edizione dedicata alla Grande Panda.</p>
+    </div>
+  </div>
+
+  <div class="pack-grid">
+    <article class="pack featured">
+      <div class="pack-media">
+        <span class="badge">DISPONIBILE</span>
+        <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=1200&q=85" alt="Auto sportiva">
+        <div class="pack-media-title">TUNING HACKER PACK<br>TUTTE LE AUTO</div>
+      </div>
+      <div class="pack-body">
+        <div class="pack-meta">
+          <span class="chip">Multi-brand</span><span class="chip">Idee & prodotti</span><span class="chip">Link diretti</span>
+        </div>
+        <p class="pack-desc">La porta d'ingresso per chi vuole trovare modifiche, accessori e idee interessanti partendo dalla propria auto.</p>
+        <ul class="pack-list">
+          <li><span class="check">✓</span>Selezioni di prodotti</li>
+          <li><span class="check">✓</span>Link diretti</li>
+          <li><span class="check">✓</span>Idee di stile</li>
+          <li><span class="check">✓</span>Consigli pratici</li>
+        </ul>
+        <div class="pack-footer">
+          <div class="price">€ 14,99 <small>accesso digitale</small></div>
+          <a class="btn btn-primary" data-link="generic" href="#">ACQUISTA →</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="pack featured">
+      <div class="pack-media">
+        <span class="badge red">NUOVO • GRANDE PANDA</span>
+        <img src="grande-panda-hacker-pack-promo.png" alt="Grande Panda Hacker Pack">
+        <div class="pack-media-title">GRANDE PANDA<br>HACKER PACK</div>
+      </div>
+      <div class="pack-body">
+        <div class="pack-meta">
+          <span class="chip">Grande Panda 2025+</span><span class="chip">Esterno</span><span class="chip">Interni</span>
+        </div>
+        <p class="pack-desc">La raccolta dedicata alla Grande Panda: modifiche estetiche, dettagli interni, utility, trasporto, 3D e link ai prodotti.</p>
+        <ul class="pack-list">
+          <li><span class="check">✓</span>Modanature & grafiche</li>
+          <li><span class="check">✓</span>Barre & trasporto</li>
+          <li><span class="check">✓</span>Interni & organizer</li>
+          <li><span class="check">✓</span>Trick & 3D ideas</li>
+        </ul>
+        <div class="pack-footer">
+          <div class="price">€ 14,99 <small>accesso digitale</small></div>
+          <a class="btn btn-primary" data-link="grandePanda" href="#">SCOPRI →</a>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="container selector" id="auto">
+  <div class="section-head">
+    <div>
+      <div class="kicker">Scegli in base alla tua auto</div>
+      <h2 class="section-title">Quale hai?</h2>
+      <p class="section-sub">Il catalogo cresce nel tempo. I modelli non ancora disponibili restano visibili in grigio, così capisci subito cosa sta arrivando.</p>
+    </div>
+  </div>
+
+  <div class="selector-bar">
+    <div class="search">
+      <span>⌕</span>
+      <input id="search" type="search" placeholder="Cerca marca..." autocomplete="off">
+    </div>
+    <div class="alpha" id="alpha"></div>
+  </div>
+
+  <div class="brand-grid" id="brandGrid"></div>
+  <div class="empty" id="empty">Nessun marchio trovato.</div>
+</section>
+
+<section class="container how" id="come-funziona">
+  <div class="section-head">
+    <div>
+      <div class="kicker">Semplice</div>
+      <h2 class="section-title">Come funziona.</h2>
+    </div>
+  </div>
+  <div class="how-grid">
+    <div class="how-card"><span class="how-num">01</span><h3>Scegli la marca</h3><p>Trova la tua auto nella griglia alfabetica. Quelli sbloccati sono acquistabili subito.</p></div>
+    <div class="how-card"><span class="how-num">02</span><h3>Apri il tuo pack</h3><p>Clicca sul pack e completa direttamente l’acquisto sul checkout Gumroad.</p></div>
+    <div class="how-card"><span class="how-num">03</span><h3>Costruisci la tua build</h3><p>Parti da poche modifiche coerenti e aggiungi nuovi dettagli man mano che escono.</p></div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div><strong>AutoEvoluzione</strong> • Tuning Hacker</div>
+    <div>© <span id="year"></span> AutoEvoluzione</div>
+  </div>
+  <div class="container disclaimer">I prezzi e la disponibilità dei prodotti esterni possono cambiare. Verifica sempre compatibilità, anno, allestimento, misure, fissaggi e scheda del venditore prima dell'acquisto.</div>
+</footer>
+
+<div class="modal" id="comingModal" aria-hidden="true">
+  <div class="modal-card">
+    <div class="modal-top">
+      <div>
+        <div class="kicker">Coming soon</div>
+        <h3 id="modalBrand">Brand</h3>
+      </div>
+      <button class="modal-close" aria-label="Chiudi">✕</button>
+    </div>
+    <p>Il pack per questo marchio non è ancora sbloccato. Lo spazio è già pronto: appena esce, comparirà qui.</p>
+    <div class="modal-actions">
+      <a class="btn btn-primary" href="#packs" onclick="closeModal()">VEDI PACK DISPONIBILI</a>
+      <a class="btn btn-dark" href="#auto" onclick="closeModal()">TORNA ALLE AUTO</a>
+    </div>
+  </div>
+</div>
+
+
+<script>
+/* ==========================================================
+   1) INSERISCI QUI I TUOI LINK GUMROAD
+   ========================================================== */
+const LINKS = {
+  generic: "https://autoevoluzione.gumroad.com/l/tuning-hacker-pack",
+  grandePanda: "https://autoevoluzione.gumroad.com/l/nkfaxj"
+};
+
+/* Marche ordinate alfabeticamente. Solo Alfa Romeo e Fiat risultano
+   acquistabili nella griglia; Grande Panda viene evidenziata come
+   edizione disponibile quando si apre Fiat. */
+const brands = [
+  ["A","Alfa Romeo","alfaromeo",true,"generic"],
+  ["A","Alpine","alpine",false],
+  ["A","Aston Martin","astonmartin",false],
+  ["A","Audi","audi",false],
+  ["B","Bentley","bentley",false],
+  ["B","BMW","bmw",false],
+  ["B","Bugatti","bugatti",false],
+  ["C","Cadillac","cadillac",false],
+  ["C","Chevrolet","chevrolet",false],
+  ["C","Citroën","citroen",false],
+  ["D","Dacia","dacia",false],
+  ["D","Dodge","dodge",false],
+  ["F","Ferrari","ferrari",false],
+  ["F","Fiat","fiat",true,"grandePanda"],
+  ["F","Ford","ford",false],
+  ["G","Genesis","genesis",false],
+  ["H","Honda","honda",false],
+  ["H","Hyundai","hyundai",false],
+  ["J","Jaguar","jaguar",false],
+  ["J","Jeep","jeep",false],
+  ["K","Kia","kia",false],
+  ["L","Lamborghini","lamborghini",false],
+  ["L","Lancia","lancia",false],
+  ["L","Land Rover","landrover",false],
+  ["L","Lexus","lexus",false],
+  ["M","Maserati","maserati",false],
+  ["M","Mazda","mazda",false],
+  ["M","McLaren","mclaren",false],
+  ["M","Mercedes-Benz","mercedesbenz",false],
+  ["M","MINI","mini",false],
+  ["M","Mitsubishi","mitsubishi",false],
+  ["N","Nissan","nissan",false],
+  ["O","Opel","opel",false],
+  ["P","Peugeot","peugeot",false],
+  ["P","Porsche","porsche",false],
+  ["R","Renault","renault",false],
+  ["S","SEAT","seat",false],
+  ["S","Škoda","skoda",false],
+  ["S","Smart","smart",false],
+  ["S","Subaru","subaru",false],
+  ["S","Suzuki","suzuki",false],
+  ["T","Tesla","tesla",false],
+  ["T","Toyota","toyota",false],
+  ["V","Volkswagen","volkswagen",false],
+  ["V","Volvo","volvo",false]
+];
+
+const brandGrid = document.getElementById("brandGrid");
+const alpha = document.getElementById("alpha");
+const search = document.getElementById("search");
+const empty = document.getElementById("empty");
+let currentLetter = "ALL";
+
+const logoBase = "https://cdn.simpleicons.org/";
+const knownLogos = new Set(brands.map(x=>x[2]));
+
+function logoMarkup(slug, name){
+  if(!knownLogos.has(slug)) return `<div class="logo-fallback">${name.slice(0,2).toUpperCase()}</div>`;
+  return `<img class="brand-logo" src="${logoBase}${slug}" alt="" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid'"><div class="logo-fallback" style="display:none">${name.slice(0,2).toUpperCase()}</div>`;
+}
+
+function renderAlpha(){
+  const letters = [...new Set(brands.map(b=>b[0]))];
+  alpha.innerHTML = `<button class="active" data-letter="ALL">Tutte</button>` +
+    letters.map(l=>`<button data-letter="${l}">${l}</button>`).join("");
+  alpha.querySelectorAll("button").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      currentLetter = btn.dataset.letter;
+      alpha.querySelectorAll("button").forEach(b=>b.classList.toggle("active",b===btn));
+      renderBrands();
+    });
+  });
+}
+
+function renderBrands(){
+  const q = search.value.trim().toLowerCase();
+  const filtered = brands.filter(b=>{
+    const matchesLetter = currentLetter==="ALL" || b[0]===currentLetter;
+    const matchesQuery = !q || b[1].toLowerCase().includes(q);
+    return matchesLetter && matchesQuery;
+  });
+  brandGrid.innerHTML = filtered.map((b)=>{
+    const [letter,name,slug,available,target] = b;
+    const ribbon = name==="Fiat" ? `<span class="ribbon">NUOVO: GRANDE PANDA</span>` : "";
+    return `
+      <div class="brand-card ${available ? "available":"locked"}"
+           data-name="${name}"
+           ${available ? `onclick="openAvailable('${name}','${target||'generic'}')"`:""}>
+        ${ribbon}
+        ${logoMarkup(slug,name)}
+        <div class="brand-name">${name}</div>
+        <div class="status">${available ? "Pack disponibile":"Coming soon"}</div>
+      </div>
+    `;
+  }).join("");
+  empty.style.display = filtered.length ? "none" : "block";
+}
+
+function resolveLink(key){
+  const link = LINKS[key];
+  return link && !link.includes("YOUR-GUMROAD") ? link : null;
+}
+
+function openAvailable(name,key){
+  const link = resolveLink(key);
+  if(link) window.location.href = link;
+  else if(name==="Fiat"){
+    const target = resolveLink("grandePanda");
+    if(target) window.location.href = target;
+    else openModal("Fiat • Grande Panda");
+  } else {
+    const target = resolveLink("generic");
+    if(target) window.location.href = target;
+    else openModal(name);
+  }
+}
+
+const modal = document.getElementById("comingModal");
+const modalBrand = document.getElementById("modalBrand");
+function openModal(name){modalBrand.textContent=name;modal.classList.add("open");modal.setAttribute("aria-hidden","false")}
+function closeModal(){modal.classList.remove("open");modal.setAttribute("aria-hidden","true")}
+document.querySelector(".modal-close").addEventListener("click",closeModal);
+modal.addEventListener("click",(e)=>{if(e.target===modal)closeModal()});
+
+document.querySelectorAll("[data-link]").forEach(el=>{
+  el.addEventListener("click",(e)=>{
+    const key=el.dataset.link;
+    const link=resolveLink(key);
+    if(link) el.href=link;
+    else {
+      e.preventDefault();
+      openModal(key==="grandePanda" ? "Fiat Grande Panda" : "Tuning Hacker Pack");
+    }
+  });
+});
+
+search.addEventListener("input",renderBrands);
+document.getElementById("year").textContent = new Date().getFullYear();
+renderAlpha();
+renderBrands();
+</script>
+</body>
+</html>
